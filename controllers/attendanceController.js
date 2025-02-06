@@ -2,7 +2,7 @@ const Attendance = require("../models/Attendance");
 
 exports.markAttendance = async (req, res) => {
     try {
-        const { rollno, status } = req.body;
+        const { rollno, status, date } = req.body;
 
         // Find the student based on rollno
         const student = await Student.findOne({ rollno });
@@ -13,7 +13,8 @@ exports.markAttendance = async (req, res) => {
         // Create and save the attendance record
         const attendance = new Attendance({
             student: student._id,  // Use student's _id instead of rollno
-            status
+            status,
+            date  // Add date to the attendance record
         });
         await attendance.save();
 

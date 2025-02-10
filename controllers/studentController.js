@@ -47,14 +47,13 @@ exports.getStudentByRollNo = async (req, res) => {
             return res.status(404).json({ message: "Student not found" });
         }
 
-        res.json(student);
+        res.status(200).json(student);
     } catch (error) {
         res.status(500).json({ message: "Error fetching student", error });
     }
 };
 
-
-//get students by className
+// Get students by className
 exports.getStudentsByClass = async (req, res) => {
     try {
         const { className } = req.params;
@@ -65,7 +64,7 @@ exports.getStudentsByClass = async (req, res) => {
             return res.status(404).json({ message: "Class not found" });
         }
 
-        res.json(studentClass.students);
+        res.status(200).json(studentClass.students);
     } catch (error) {
         res.status(500).json({ message: "Error fetching students", error });
     }

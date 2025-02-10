@@ -28,5 +28,5 @@ exports.teacherLogin = async (req, res) => {
     if (!isMatch) return res.status(401).json({ message: "Invalid email or password" });
 
     const token = jwt.sign({ id: teacher._id, role: "teacher" }, process.env.JWT_SECRET, { expiresIn: "1d" });
-    res.json({ token });
+    res.status(200).json({ token });
 };

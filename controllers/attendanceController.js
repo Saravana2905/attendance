@@ -1,5 +1,5 @@
 const Attendance = require("../models/Attendance");
-const students = require('../models/Student')
+const students = require('../models/Student');
 
 exports.markAttendance = async (req, res) => {
     try {
@@ -29,13 +29,17 @@ exports.getAttendanceByDate = async (req, res) => {
     try {
         const { date } = req.query;
         const records = await Attendance.find({ date }).populate('student', 'name rollno');
-        res.json({ message: "Attendance records retrieved successfully", records });
+        res.status(200).json({ message: "Attendance records retrieved successfully", records });
     } catch (error) {
         res.status(500).json({ message: "Error retrieving attendance records", error });
     }
 };
 
 exports.clearAttendance = async (req, res) => {
-    await Attendance.deleteMany({});
-    res.json({ message: "All attendance records cleared" });
+    try {
+        await Attendance.deleteMany({});
+        res.status(200).json({ message: "All attendance records cleared" });
+    } catch (error) {
+        res.status(500).json({ message: "Error clearing attendance records", error });
+    }
 };

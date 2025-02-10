@@ -25,16 +25,16 @@ exports.adminLogin = async (req, res) => {
     const { email, password } = req.body;
     const admin = await Admin.findOne({ email });
 
-    if (!admin) return res.status(401).json({ message: "Invalid email or password1" });
+    if (!admin) return res.status(401).json({ message: "Invalid email " });
 
     const isMatch = await bcrypt.compare(password, admin.password);
-    if (!isMatch) return res.status(401).json({ message: "Invalid email or password2" });
+    if (!isMatch) return res.status(401).json({ message: "Invalid password" });
 
     const token = jwt.sign({ id: admin._id, role: "admin" }, process.env.JWT_SECRET, { expiresIn: "1d" });
-    res.json({ token });
+    res.status(200).json({ token });
 };
 
-//create classes
+// Create classes
 exports.createClass = async (req, res) => {
     try {
         const { className } = req.body;
@@ -48,7 +48,7 @@ exports.createClass = async (req, res) => {
     }
 };
 
-//allocate class to teacher
+// Allocate class to teacher
 exports.allocateClass = async (req, res) => {
     try {
         const { teacherId, classId } = req.body;
@@ -79,7 +79,7 @@ exports.allocateClass = async (req, res) => {
             await studentClass.save();
         }
 
-        res.json({ message: "Class allocated to teacher successfully" });
+        res.status(200).json({ message: "Class allocated to teacher successfully" });
     } catch (error) {
         console.error("Error allocating class to teacher:", error);
         res.status(500).json({ message: "Error allocating class to teacher", error: error.message });

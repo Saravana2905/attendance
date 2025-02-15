@@ -16,6 +16,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+//test route
+app.get('/', (req, res) => {
+    res.send('Hello World \n connected to the server');
+});
+
 // Routes
 app.use('/api/admin', adminRoutes);
 app.use('/api/teacher', teacherRoutes);

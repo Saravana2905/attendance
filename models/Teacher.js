@@ -5,7 +5,6 @@ const TeacherSchema = mongoose.Schema({
     email: { type: String, unique: true },
     phone: String,
     password: String,
-    img: String,
     classes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Class" }]
 });
 

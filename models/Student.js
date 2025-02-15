@@ -5,7 +5,6 @@ const StudentSchema = new mongoose.Schema({
     rollno: String,
     email: { type: String, unique: true },
     phone: String,
-    profileimg: String,
     class: { type: mongoose.Schema.Types.ObjectId, ref: "Class" }
 });
 

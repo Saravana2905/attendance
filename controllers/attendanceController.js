@@ -3,7 +3,7 @@ const students = require("../models/Student");
 
 exports.markAttendance = async (req, res) => {
     try {
-        const { rollno, status, date } = req.body;
+        const { rollno, att_status, date, hour } = req.body;
         const student = await students.findOne({ rollno });
         if (!student) {
             return res.status(404).json({
@@ -14,7 +14,8 @@ exports.markAttendance = async (req, res) => {
         }
         const attendance = new Attendance({
             student: student._id,
-            status,
+            att_status,
+            hour,
             date
         });
         await attendance.save();

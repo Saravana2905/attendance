@@ -25,6 +25,24 @@ exports.createTeacher = async (req, res) => {
     }
 };
 
+exports.getTeachers = async (req, res) => {
+    try {
+        const teachers = await Teacher.find();
+        res.status(200).json({ 
+            status: 200,
+            success: true,
+            teachers 
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            status: 500,
+            success: false,
+            message: "Error fetching teachers",
+            error 
+        });
+    }
+};
+
 exports.teacherLogin = async (req, res) => {
     try {
         const { email, password } = req.body;

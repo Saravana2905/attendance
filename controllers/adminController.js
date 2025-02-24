@@ -81,6 +81,24 @@ exports.createClass = async (req, res) => {
     }
 };
 
+exports.getclass = async (req, res)=>{
+    try{
+        const classes = await Class.find();
+        res.status(200).json({
+            status: 200,
+            success: true,
+            classes
+        });
+    }catch(error){
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: "Error fetching classes",
+            error
+        });
+    }
+}
+
 exports.allocateClass = async (req, res) => {
     try {
         const { teacherId, classId } = req.body;

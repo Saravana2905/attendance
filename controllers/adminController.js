@@ -150,3 +150,59 @@ exports.allocateClass = async (req, res) => {
         });
     }
 };
+
+exports.login = async (req, res) => {
+    try {
+        console.log("request---->", req.body);
+        const { email, password } = req.body;
+        let user, role;
+
+        // Check if the user is an admin
+        user = await Admin.findOne({ email });
+        if (user) {
+            role = "admin";
+        } else {
+            // If not admin, check if the user is a teacher
+            user = await Teacher.findOne({ email });
+            if (user) {
+                role = "teacher";
+            } else {
+                return res.status(401).json({
+                    status: 401,
+                    success: false,
+                    message: "Invalid email"
+                });
+            }
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({
+                status: 401,
+                success: false,
+                message: "Invalid password"
+            });
+        }
+
+        const token = jwt.sign(
+            { id: user._id, role },
+            process.env.JWT_SECRET,
+            { expiresIn: "1d" }
+        );
+
+        res.status(200).json({
+            status: 200,
+            success: true,
+            token,
+            role,
+            name: user.name
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: "Error during login",
+            error
+        });
+    }
+};

@@ -159,3 +159,46 @@ exports.getAttendanceByclassAndHour = async (req, res) => {
         });
     }
 };
+
+exports.getAttendanceByclassAndHourAndDate = async (req, res) => {
+    try {
+        const { className, hour, date } = req.params;
+        console.log('className-->', className, 'hour-->', hour, 'date-->', date);
+
+        // Find the class by className
+        const studentClass = await Class.findOne({ className });
+        if (!studentClass) {
+            return res.status(404).json({
+                status: 404,
+                success: false,
+                message: "Class not found"
+            });
+        }
+
+        // Find students enrolled in the class
+        const Astudents = await students.find({ class: studentClass._id });
+        const studentIds = Astudents.map(sstudent => sstudent._id);
+
+        // Find attendance records for these students that match the specified hour and date
+        const records = await Attendance.find({ 
+            student: { $in: studentIds },
+            hour: hour,
+            date: new Date(date)
+        }).populate("student", "name rollno att_status hour");
+
+        res.status(200).json({
+            status: 200,
+            success: true,
+            message: "Attendance records retrieved successfully",
+            records
+        });
+    } catch (error) {
+        console.log('error-->', error);
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: "Error retrieving attendance records",
+            error
+        });
+    }
+};

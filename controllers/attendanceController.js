@@ -163,11 +163,11 @@ exports.getAttendanceByclassAndHour = async (req, res) => {
 
 exports.getAttendanceByclassAndHourAndDate = async (req, res) => {
     try {
-        const { className, hour, date } = req.params;
-        console.log('className-->', className, 'hour-->', hour, 'date-->', date);
+        const { classId, hour, date } = req.params;
+        console.log('classId-->', classId, 'hour-->', hour, 'date-->', date);
 
-        // Find the class by className
-        const studentClass = await Class.findOne({ className });
+        // Find the class by classId
+        const studentClass = await Class.findById(classId);
         if (!studentClass) {
             return res.status(404).json({
                 status: 404,

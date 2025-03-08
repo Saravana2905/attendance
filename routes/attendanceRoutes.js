@@ -10,6 +10,6 @@ app.get('/getAttendanceByClass/:className/:hour', getAttendanceByclassAndHour);
 app.get('/getAttendanceByClass/:className/:hour/:date', getAttendanceByclassAndHourAndDate);
 app.post('/markAttendanceClass', markAttendanceClassWise);
 app.get('/getAttendanceByDateAndHour/:date/:hour', getAttendanceByDateAndHour);
-app.get('/getAttendanceByClassHourAndDate/:className/:hour/:date', getAttendanceByclassAndHourAndDate);
+app.get('/getAttendanceByClassHourAndDate/:classId/:hour/:date', getAttendanceByclassAndHourAndDate);
 
 module.exports = app;

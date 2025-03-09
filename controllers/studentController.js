@@ -84,13 +84,13 @@ exports.getStudentByRollNo = async (req, res) => {
     }
 };
 
-// Get students by className
+// Get students by classId
 exports.getStudentsByClass = async (req, res) => {
     try {
-        const { className } = req.params;
+        const { classId } = req.params;
 
-        // Find the class based on class name
-        const studentClass = await Class.findOne({ className }).populate("students");
+        // Find the class based on classId
+        const studentClass = await Class.findById(classId).populate("students");
         if (!studentClass) {
             return res.status(404).json({
                 status: 404,

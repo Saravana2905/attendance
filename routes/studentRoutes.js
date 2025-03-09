@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/create', createStudent);
 router.get('/rollno/:rollno', getStudentByRollNo);
-router.get('/class/:className', getStudentsByClass);
+router.get('/class/:classId', getStudentsByClass);
 
 // router.post("/create", authMiddleware, createStudent);
 // router.get("/rollno/:rollno", authMiddleware, getStudentByRollNo);  // Get student by roll number
